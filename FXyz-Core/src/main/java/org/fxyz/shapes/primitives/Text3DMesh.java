@@ -25,10 +25,10 @@
  * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */ 
-
+ */
 package org.fxyz.shapes.primitives;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
@@ -67,10 +67,10 @@ import org.fxyz.shapes.primitives.helper.TextureMode;
 
 /**
  *
- * @author José Pereda 
+ * @author José Pereda
  */
 public class Text3DMesh extends Group implements TextureMode {
-    
+
     private final static String DEFAULT_TEXT3D = "F(X)yz 3D";
     private final static String DEFAULT_FONT = "Arial";
     private final static int DEFAULT_FONT_SIZE = 100;
@@ -79,41 +79,43 @@ public class Text3DMesh extends Group implements TextureMode {
     private final static int DEFAULT_LEVEL = 1;
     private final static boolean DEFAULT_JOIN_SEGMENTS = true;
     private final static char SPACE = 32;
-    
-    private ObservableList<TexturedMesh> meshes=null;
+
+    private ObservableList<TexturedMesh> meshes = null;
     private List<Point3D> offset;
-    
-    public Text3DMesh(){
-        this(DEFAULT_TEXT3D,DEFAULT_FONT,DEFAULT_FONT_SIZE,DEFAULT_JOIN_SEGMENTS,DEFAULT_HEIGHT,DEFAULT_GAP,DEFAULT_LEVEL);
+
+    public Text3DMesh() {
+        this(DEFAULT_TEXT3D, DEFAULT_FONT, DEFAULT_FONT_SIZE, DEFAULT_JOIN_SEGMENTS, DEFAULT_HEIGHT, DEFAULT_GAP, DEFAULT_LEVEL);
     }
-    
-    public Text3DMesh(String text3D){
-        this(text3D,DEFAULT_FONT,DEFAULT_FONT_SIZE,DEFAULT_JOIN_SEGMENTS,DEFAULT_HEIGHT,DEFAULT_GAP,DEFAULT_LEVEL);
+
+    public Text3DMesh(String text3D) {
+        this(text3D, DEFAULT_FONT, DEFAULT_FONT_SIZE, DEFAULT_JOIN_SEGMENTS, DEFAULT_HEIGHT, DEFAULT_GAP, DEFAULT_LEVEL);
     }
-    
-    public Text3DMesh(String text3D, String font,int fontSize){
-        this(text3D,font,fontSize,DEFAULT_JOIN_SEGMENTS,DEFAULT_HEIGHT,DEFAULT_GAP,DEFAULT_LEVEL);
+
+    public Text3DMesh(String text3D, String font, int fontSize) {
+        this(text3D, font, fontSize, DEFAULT_JOIN_SEGMENTS, DEFAULT_HEIGHT, DEFAULT_GAP, DEFAULT_LEVEL);
     }
-    
-    public Text3DMesh(String text3D, String font,int fontSize, boolean joinSegments){
-        this(text3D,font,fontSize,joinSegments,DEFAULT_HEIGHT,DEFAULT_GAP,DEFAULT_LEVEL);
+
+    public Text3DMesh(String text3D, String font, int fontSize, boolean joinSegments) {
+        this(text3D, font, fontSize, joinSegments, DEFAULT_HEIGHT, DEFAULT_GAP, DEFAULT_LEVEL);
     }
-    
-    public Text3DMesh(String text3D, double height){
-        this(text3D,DEFAULT_FONT,DEFAULT_FONT_SIZE,DEFAULT_JOIN_SEGMENTS,height,DEFAULT_GAP, DEFAULT_LEVEL);
+
+    public Text3DMesh(String text3D, double height) {
+        this(text3D, DEFAULT_FONT, DEFAULT_FONT_SIZE, DEFAULT_JOIN_SEGMENTS, height, DEFAULT_GAP, DEFAULT_LEVEL);
     }
-    public Text3DMesh(String text3D, double height, double gap){
-        this(text3D,DEFAULT_FONT,DEFAULT_FONT_SIZE,DEFAULT_JOIN_SEGMENTS,height,gap, DEFAULT_LEVEL);
+
+    public Text3DMesh(String text3D, double height, double gap) {
+        this(text3D, DEFAULT_FONT, DEFAULT_FONT_SIZE, DEFAULT_JOIN_SEGMENTS, height, gap, DEFAULT_LEVEL);
     }
-    
-    public Text3DMesh(String text3D, double height, int level){
-        this(text3D,DEFAULT_FONT,DEFAULT_FONT_SIZE,DEFAULT_JOIN_SEGMENTS,height,DEFAULT_GAP,level);
+
+    public Text3DMesh(String text3D, double height, int level) {
+        this(text3D, DEFAULT_FONT, DEFAULT_FONT_SIZE, DEFAULT_JOIN_SEGMENTS, height, DEFAULT_GAP, level);
     }
-    public Text3DMesh(String text3D, double height, double gap, int level){
-        this(text3D,DEFAULT_FONT,DEFAULT_FONT_SIZE,DEFAULT_JOIN_SEGMENTS,height,gap,level);
+
+    public Text3DMesh(String text3D, double height, double gap, int level) {
+        this(text3D, DEFAULT_FONT, DEFAULT_FONT_SIZE, DEFAULT_JOIN_SEGMENTS, height, gap, level);
     }
-    
-    public Text3DMesh(String text3D, String font, int fontSize, boolean joinSegments, double height, double gap, int level){
+
+    public Text3DMesh(String text3D, String font, int fontSize, boolean joinSegments, double height, double gap, int level) {
         setText3D(text3D);
         setFont(font);
         setFontSize(fontSize);
@@ -121,14 +123,14 @@ public class Text3DMesh extends Group implements TextureMode {
         setHeight(height);
         setGap(gap);
         setLevel(level);
-        
+
         updateMesh();
     }
-    private final StringProperty text3D = new SimpleStringProperty(DEFAULT_TEXT3D){
+    private final StringProperty text3D = new SimpleStringProperty(DEFAULT_TEXT3D) {
 
         @Override
         protected void invalidated() {
-            if(meshes!=null){
+            if (meshes != null) {
                 updateMesh();
             }
         }
@@ -145,10 +147,10 @@ public class Text3DMesh extends Group implements TextureMode {
     public StringProperty text3DProperty() {
         return text3D;
     }
-    private final StringProperty font = new SimpleStringProperty(DEFAULT_FONT){
+    private final StringProperty font = new SimpleStringProperty(DEFAULT_FONT) {
         @Override
         protected void invalidated() {
-            if(meshes!=null){
+            if (meshes != null) {
                 updateMesh();
             }
         }
@@ -165,10 +167,10 @@ public class Text3DMesh extends Group implements TextureMode {
     public StringProperty fontProperty() {
         return font;
     }
-    private final IntegerProperty fontSize = new SimpleIntegerProperty(DEFAULT_FONT_SIZE){
+    private final IntegerProperty fontSize = new SimpleIntegerProperty(DEFAULT_FONT_SIZE) {
         @Override
         protected void invalidated() {
-            if(meshes!=null){
+            if (meshes != null) {
                 updateMesh();
             }
         }
@@ -185,10 +187,10 @@ public class Text3DMesh extends Group implements TextureMode {
     public IntegerProperty fontSizeProperty() {
         return fontSize;
     }
-    private final DoubleProperty height = new SimpleDoubleProperty(DEFAULT_HEIGHT){
+    private final DoubleProperty height = new SimpleDoubleProperty(DEFAULT_HEIGHT) {
         @Override
         protected void invalidated() {
-            if(meshes!=null){
+            if (meshes != null) {
                 updateMesh();
             }
         }
@@ -205,11 +207,11 @@ public class Text3DMesh extends Group implements TextureMode {
     public DoubleProperty heightProperty() {
         return height;
     }
-    private final DoubleProperty gap = new SimpleDoubleProperty(DEFAULT_GAP){
+    private final DoubleProperty gap = new SimpleDoubleProperty(DEFAULT_GAP) {
 
         @Override
         protected void invalidated() {
-            if(meshes!=null){
+            if (meshes != null) {
                 updateMesh();
             }
         }
@@ -228,18 +230,17 @@ public class Text3DMesh extends Group implements TextureMode {
         return gap;
     }
 
-    
-    private final IntegerProperty level = new SimpleIntegerProperty(DEFAULT_LEVEL){
+    private final IntegerProperty level = new SimpleIntegerProperty(DEFAULT_LEVEL) {
 
         @Override
         protected void invalidated() {
-            if(meshes!=null){
+            if (meshes != null) {
                 updateMesh();
             }
         }
 
     };
-    
+
     public final int getLevel() {
         return level.get();
     }
@@ -251,10 +252,10 @@ public class Text3DMesh extends Group implements TextureMode {
     public final IntegerProperty levelProperty() {
         return level;
     }
-    private final BooleanProperty joinSegments = new SimpleBooleanProperty(DEFAULT_JOIN_SEGMENTS){
+    private final BooleanProperty joinSegments = new SimpleBooleanProperty(DEFAULT_JOIN_SEGMENTS) {
         @Override
         protected void invalidated() {
-            if(meshes!=null){
+            if (meshes != null) {
                 updateMesh();
             }
         }
@@ -271,21 +272,21 @@ public class Text3DMesh extends Group implements TextureMode {
     public BooleanProperty joinSegmentsProperty() {
         return joinSegments;
     }
-    
+
     protected final void updateMesh() {
         // 1. Full Text to get position of each letter
         Text3DHelper helper = new Text3DHelper(text3D.get(), font.get(), fontSize.get());
-        offset=helper.getOffset();
+        offset = helper.getOffset();
 
         // 2. Create mesh for each LineSegment        
-        meshes=FXCollections.<TexturedMesh>observableArrayList();
-        indLetters=new AtomicInteger();
-        indSegments=new AtomicInteger();
-        letterPath=new Path();
-        
-        text3D.get().chars().mapToObj(i->(char)i).filter(c->c!=SPACE)
-                .forEach(letter->createLetter(letter.toString()));
-        
+        meshes = FXCollections.<TexturedMesh>observableArrayList();
+        indLetters = new AtomicInteger();
+        indSegments = new AtomicInteger();
+        letterPath = new Path();
+
+        text3D.get().chars().mapToObj(i -> (char) i).filter(c -> c != SPACE)
+                .forEach(letter -> createLetter(letter.toString()));
+
         // 3. Update texture
 //        switch(textureType.get()){
 //            case NONE:
@@ -296,43 +297,44 @@ public class Text3DMesh extends Group implements TextureMode {
         getChildren().setAll(meshes);
         updateTransforms();
     }
-    
+
     private AtomicInteger indSegments, indLetters;
-    private Shape letterPath=new Path();
+    private Shape letterPath = new Path();
+
     private void createLetter(String letter) {
-        
+
         Text3DHelper helper = new Text3DHelper(letter, font.get(), fontSize.get());
         List<Point3D> origin = helper.getOffset();
-        
-        final int ind=indSegments.get();
-        helper.getLineSegment().stream().map(poly->poly.getPath()).forEach(path->letterPath=Shape.union(letterPath, path));
-        helper.getLineSegment().stream().forEach(poly->{
-            final List<Point3D> points=poly.getPoints();
-            List<List<Point3D>> holes=null;
-            if(poly.getHoles().size()>0){
-                holes=poly.getHoles().stream().map(LineSegment::getPoints).collect(Collectors.toList());
+
+        final int ind = indSegments.get();
+        helper.getLineSegment().stream().map(poly -> poly.getPath()).forEach(path -> letterPath = Shape.union(letterPath, path));
+        helper.getLineSegment().stream().forEach(poly -> {
+            final List<Point3D> points = poly.getPoints();
+            List<List<Point3D>> holes = null;
+            if (poly.getHoles().size() > 0) {
+                holes = poly.getHoles().stream().map(LineSegment::getPoints).collect(Collectors.toList());
             }
-            List<Point3D> invert = IntStream.range(0,points.size())
-                    .mapToObj(i->points.get(points.size()-1-i))
+            List<Point3D> invert = IntStream.range(0, points.size())
+                    .mapToObj(i -> points.get(points.size() - 1 - i))
                     .distinct().collect(Collectors.toList());
             Bounds bounds = null;
-            if(joinSegments.get()){
-                bounds=letterPath.getBoundsInParent();
+            if (joinSegments.get()) {
+                bounds = letterPath.getBoundsInParent();
             }
-            TriangulatedMesh polyMesh = new TriangulatedMesh(invert,holes,level.get(),height.get(),0d,bounds);
-            if(indSegments.get()>ind && joinSegments.get()){
+            TriangulatedMesh polyMesh = new TriangulatedMesh(invert, holes, level.get(), height.get(), 0d, bounds);
+            if (indSegments.get() > ind && joinSegments.get()) {
                 /*
                 Combine new polyMesh with previous polyMesh into one single polyMesh
-                */
-                MeshHelper mh = new MeshHelper((TriangleMesh)meshes.get(meshes.size()-1).getMesh());
-                MeshHelper mh1 = new MeshHelper((TriangleMesh)polyMesh.getMesh());
+                 */
+                MeshHelper mh = new MeshHelper((TriangleMesh) meshes.get(meshes.size() - 1).getMesh());
+                MeshHelper mh1 = new MeshHelper((TriangleMesh) polyMesh.getMesh());
                 mh1.addMesh(mh);
                 polyMesh.updateMesh(mh1);
-                meshes.set(meshes.size()-1,polyMesh);
+                meshes.set(meshes.size() - 1, polyMesh);
             } else {
                 meshes.add(polyMesh);
             }
-            polyMesh.getTransforms().addAll(new Translate(offset.get(ind).x-origin.get(0).x+indLetters.get()*gap.doubleValue(),0,0));
+            polyMesh.getTransforms().addAll(new Translate(offset.get(ind).x - origin.get(0).x + indLetters.get() * gap.doubleValue(), 0, 0));
             polyMesh.setCullFace(CullFace.BACK);
             polyMesh.setDrawMode(DrawMode.FILL);
             polyMesh.setDepthTest(DepthTest.ENABLE);
@@ -340,7 +342,7 @@ public class Text3DMesh extends Group implements TextureMode {
             indSegments.getAndIncrement();
         });
         indLetters.getAndIncrement();
-        
+
         vertCountBinding.invalidate();
         faceCountBinding.invalidate();
 
@@ -348,90 +350,97 @@ public class Text3DMesh extends Group implements TextureMode {
 
     @Override
     public void setTextureModeNone() {
-        meshes.stream().forEach(m->m.setTextureModeNone());
+        meshes.stream().forEach(m -> m.setTextureModeNone());
     }
 
     @Override
     public void setTextureModeNone(Color color) {
-        meshes.stream().forEach(m->m.setTextureModeNone(color));
+        meshes.stream().forEach(m -> m.setTextureModeNone(color));
     }
 
     @Override
     public void setTextureModeNone(Color color, String image) {
-        meshes.stream().forEach(m->m.setTextureModeNone(color,image));
+        meshes.stream().forEach(m -> m.setTextureModeNone(color, image));
     }
 
     @Override
     public void setTextureModeImage(String image) {
-        meshes.stream().forEach(m->m.setTextureModeImage(image));
+        meshes.stream().forEach(m -> m.setTextureModeImage(image));
     }
 
     @Override
     public void setTextureModePattern(Patterns.CarbonPatterns pattern, double scale) {
-        meshes.stream().forEach(m->m.setTextureModePattern(pattern, scale));
+        meshes.stream().forEach(m -> m.setTextureModePattern(pattern, scale));
     }
 
     @Override
     public void setTextureModeVertices3D(int colors, Function<Point3D, Number> dens) {
-        meshes.stream().forEach(m->m.setTextureModeVertices3D(colors, dens));
+        meshes.stream().forEach(m -> m.setTextureModeVertices3D(colors, dens));
     }
 
     @Override
     public void setTextureModeVertices3D(ColorPalette palette, int colors, Function<Point3D, Number> dens) {
-        meshes.stream().forEach(m->m.setTextureModeVertices3D(palette, colors, dens));
+        meshes.stream().forEach(m -> m.setTextureModeVertices3D(palette, colors, dens));
     }
 
     @Override
     public void setTextureModeVertices3D(int colors, Function<Point3D, Number> dens, double min, double max) {
-        meshes.stream().forEach(m->m.setTextureModeVertices3D(colors, dens, min, max));
+        meshes.stream().forEach(m -> m.setTextureModeVertices3D(colors, dens, min, max));
     }
 
     @Override
     public void setTextureModeVertices1D(int colors, Function<Number, Number> function) {
-        meshes.stream().forEach(m->m.setTextureModeVertices1D(colors, function));
+        meshes.stream().forEach(m -> m.setTextureModeVertices1D(colors, function));
     }
 
     @Override
     public void setTextureModeVertices1D(ColorPalette palette, int colors, Function<Number, Number> function) {
-        meshes.stream().forEach(m->m.setTextureModeVertices1D(palette, colors, function));
+        meshes.stream().forEach(m -> m.setTextureModeVertices1D(palette, colors, function));
     }
 
     @Override
     public void setTextureModeVertices1D(int colors, Function<Number, Number> function, double min, double max) {
-        meshes.stream().forEach(m->m.setTextureModeVertices1D(colors, function, min, max));
+        meshes.stream().forEach(m -> m.setTextureModeVertices1D(colors, function, min, max));
     }
 
     @Override
     public void setTextureModeFaces(int colors) {
-        meshes.stream().forEach(m->m.setTextureModeFaces(colors));
+        meshes.stream().forEach(m -> m.setTextureModeFaces(colors));
     }
-    
+
     @Override
     public void setTextureModeFaces(ColorPalette palette, int colors) {
-        meshes.stream().forEach(m->m.setTextureModeFaces(palette, colors));
+        meshes.stream().forEach(m -> m.setTextureModeFaces(palette, colors));
     }
-    
+
     @Override
     public void updateF(List<Number> values) {
-         meshes.stream().forEach(m->m.updateF(values));
+        meshes.stream().forEach(m -> m.updateF(values));
     }
-    
+
     public void setDrawMode(DrawMode mode) {
-        meshes.stream().forEach(m->m.setDrawMode(mode));
+        meshes.stream().forEach(m -> m.setDrawMode(mode));
     }
-    
+
     private void updateTransforms() {
-        meshes.stream().forEach(m->m.updateTransforms());
+        meshes.stream().forEach(m -> m.updateTransforms());
     }
-    
-    public TexturedMesh getMeshFromLetter(String letter){
-        return meshes.stream().filter(p->p.getId().equals(letter)).findFirst().orElse(meshes.get(0));
+
+    public TexturedMesh getMeshFromLetter(String letter) {
+        return meshes.stream().filter(p -> p.getId().equals(letter)).findFirst().orElse(meshes.get(0));
     }
-    
-    public TexturedMesh getMeshFromLetter(String letter, int order){
-        return meshes.stream().filter(p->p.getId().equals(letter)).skip(order-1).findFirst().orElse(meshes.get(0));
+
+    public TexturedMesh getMeshFromLetter(String letter, int order) {
+        return meshes.stream().filter(p -> p.getId().equals(letter)).skip(order - 1).findFirst().orElse(meshes.get(0));
     }
- 
+
+    /**
+     * @return an unmodifiable list of all meshes
+     */
+    public List<TexturedMesh> getMeshes() {
+        return Collections.unmodifiableList(meshes);
+    }
+
     private final Callback<List<Point3D>, Integer> vertexCount = (List<Point3D> param) -> {
         return param.size();
     };
@@ -458,7 +467,7 @@ public class Text3DMesh extends Group implements TextureMode {
             return String.valueOf(sum);
         }
     };
-    
+
     public final StringBinding faceCountBinding() {
         return faceCountBinding;
     }
