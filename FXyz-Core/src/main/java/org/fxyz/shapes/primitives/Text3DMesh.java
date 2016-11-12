@@ -29,6 +29,7 @@
 
 package org.fxyz.shapes.primitives;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
@@ -430,6 +431,13 @@ public class Text3DMesh extends Group implements TextureMode {
     
     public TexturedMesh getMeshFromLetter(String letter, int order){
         return meshes.stream().filter(p->p.getId().equals(letter)).skip(order-1).findFirst().orElse(meshes.get(0));
+    }
+    
+    /**
+     * @return an unmodifiable list of all meshes
+     */
+    public List<TexturedMesh> getMeshes() {
+        return Collections.unmodifiableList(meshes);
     }
  
     private final Callback<List<Point3D>, Integer> vertexCount = (List<Point3D> param) -> {
